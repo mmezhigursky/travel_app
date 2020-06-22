@@ -3,10 +3,11 @@
 // import  './js/formHandler'
 
 // // import './styles/resets.scss'
-// import './styles/footer.scss'
+import './styles/footer.scss'
 // import './styles/form.scss'
 // // import './styles/header.scss'
-// import './styles/base.scss'
+import './styles/page.scss'
+import './styles/nav.scss'
 
 
 
