@@ -2,6 +2,11 @@
 // import { textAnalysator } from './js/http'
 // import  './js/formHandler'
 
+// import src from './styles/efil.jpg';
+// const image = new Image();
+// image.src = src;
+// document.body.appendChild(image);
+
 // // import './styles/resets.scss'
 import './styles/footer.scss'
 // import './styles/form.scss'

@@ -16,21 +16,50 @@
     <div class="container">
        <h1>Travel APP</h1>
        <section id="wraper_planner">
-         <div class="img_wraper">
-            <img src="" alt="">
-         </div>
-
-         <div class="header">
-            <h3>My trips:Paris, France</h3>
-            <p>Departing:2020/06/01</p>
-         </div>
          <div>
+           <label for="place">My trips:</label><br>
+           <input type="text" placeholder="enter place of depature" id="trips" name="place" ><br>
+           <label for="date">Departing:</label><br>
+           <input type="text" placeholder="enter date of depature" id="departing" name="date" ><br><br>
            <input type="button" value="save trip" id="save_trip">
            <input type="button" value="remove" id="remove_trip">
          </div>
-         <div>
-           
-         </div>
+       </section>
+       <section id="wraper_info">
+            <div id="container_info">
+                <div class="img_wraper">
+                    <img src='assets/efil.jpg' alt="">
+                 </div>
+                 <div class="curent_trip">
+                     <div class="curent_trip_header">
+                        <H3>
+                            My trip to:
+                        </H3>
+                        <p>
+                            Departing:
+                        </p>
+                    </div>
+                    <div class="curent_trip_info">
+                        <div class="flight_info">
+                            <H4>
+                                Flight info:
+                            </H4>
+                            <p>
+                                ORD 3:00PM
+                                Flight 22 UDCITY AIR
+                            </p>
+
+                        </div>
+                        <p class="day_left">
+                            Paris, France is 220 days away
+                        </p><br>
+                        <p class="typical_weather">
+                            Typical weather for the:
+                        </p><br>
+                    </div>
+                 </div>
+                
+            </div>
        </section>
     </div>
     <div class="section" id="footer_section">

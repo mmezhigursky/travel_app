@@ -1,6 +1,10 @@
 /*##################################*/
 /* GENERAL SETTINGS */
 /*##################################*/
+*{
+  box-sizing: border-box;
+}
+
 
 h2,h1,h3{
     color: #44d62c;
@@ -32,6 +36,7 @@ h2,h1,h3{
     grid-template-columns:1fr;
     grid-template-areas: "nav "
                         "main"
+                        "body"
                          "footer";
     justify-items: center;
     /* border: red 2px solid; */
@@ -42,7 +47,28 @@ h2,h1,h3{
       flex-flow: column nowrap;
   }
 
+#container_info{
+  grid-area:body;
+  display: grid;
 
+  margin: auto;
+  grid-gap: 1rem;
+  /* grid-template-rows: 60px 45vh 45vh 45vh 45vh; */
+  /* grid-auto-rows: minmax(400px, auto); */
+  grid-template-columns:1fr;
+  grid-template-areas: "foto"
+                      "info"
+                      "trip";
+  justify-items: center;
+  /* border: red 2px solid; */
+
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  width: 400px;
+}
   
 /*##################################*/
 /* POST SETTINGS */
