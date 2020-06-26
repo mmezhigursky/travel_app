@@ -40,3 +40,13 @@ app.listen(8080, function () {
 // app.get('/test', function (req, res) {
 //     res.send(mockAPIResponse)
 // })
+
+
+const apiMachine = async (data) =>{
+    const pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.distanation}&image_type=photo`;
+
+    const pixabay_req = await fetch(pixabay, function(error, response, body){
+
+
+    });
+}
