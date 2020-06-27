@@ -1,6 +1,9 @@
 
 const  path = require('path');
 
+let projectData = {};
+let dataDump = {};
+const fetch = require("node-fetch");
 const express = require('express');
 
 // const mockAPIResponse = require('./mockAPI.js');
@@ -42,11 +45,29 @@ app.listen(8080, function () {
 // })
 
 
-const apiMachine = async (data) =>{
-    const pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.distanation}&image_type=photo`;
+app.post('/getdata', function (req, res) {
+    console.log(req)
+    let test = apiMachine(req.body.foto, res);
+    // res.send(projectData)
+})
 
-    const pixabay_req = await fetch(pixabay, function(error, response, body){
+const apiMachine = async (data, res) =>{
+    const pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data}&image_type=photo`;
 
+    let pixabay_req = await fetch(pixabay);
+    try{
+        if(pixabay_req.status==200){
+        console.log(pixabay_req);
+        let foto_url = await pixabay_req.json();
+        console.log(foto_url);
+        projectData['pic'] = foto_url.hits[0].webformatURL;
+        console.log("это projectData  ", projectData);
+        res.send(projectData)
+    }
+    }
+    catch (error) {
 
-    });
+        console.log("error", error);
+      }
 }
+    

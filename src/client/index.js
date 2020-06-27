@@ -1,6 +1,6 @@
 // import { urlChecker } from './js/validator'
-// import { textAnalysator } from './js/http'
-// import  './js/formHandler'
+import { formHendler } from './js/formHendler'
+// import  './js/formHendler'
 
 // import src from './styles/efil.jpg';
 // const image = new Image();
