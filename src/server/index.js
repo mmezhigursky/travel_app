@@ -1,7 +1,7 @@
 
 const  path = require('path');
 
-let projectData = {};
+let projectData = [];
 let dataDump = {};
 const fetch = require("node-fetch");
 const express = require('express');
@@ -46,28 +46,94 @@ app.listen(8080, function () {
 
 
 app.post('/getdata', function (req, res) {
-    console.log(req)
-    let test = apiMachine(req.body.foto, res);
+    let test = apiMachine(req, res);
+    console.log("это картинка  ", req.body);
     // res.send(projectData)
 })
 
-const apiMachine = async (data, res) =>{
-    const pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data}&image_type=photo`;
+  const apiMachine =async (data, res) => {
+    
+    let geoName = `http://api.geonames.org/postalCodeSearchJSON?placename_startsWith=${data.body.place}&countryCode=${data.body.country}&maxRows=1&username=${process.env.geoName}`;
 
-    let pixabay_req = await fetch(pixabay);
+    let geoChecker = await fetch(geoName);
+
     try{
-        if(pixabay_req.status==200){
-        console.log(pixabay_req);
-        let foto_url = await pixabay_req.json();
-        console.log(foto_url);
-        projectData['pic'] = foto_url.hits[0].webformatURL;
-        console.log("это projectData  ", projectData);
-        res.send(projectData)
+        if(geoChecker.status==200){
+       
+            let palceAtr = await geoChecker.json();
+        
+        if (palceAtr.postalCodes[0] == undefined) {
+            
+            dataDump['lon'] =  "None";
+           
+            dataDump['lat'] =  "None";
+        } else {
+            console.log(palceAtr);
+            
+            let weather =  `https://api.weatherbit.io/v2.0/forecast/daily?lat=${palceAtr.postalCodes[0].lat}&lon=${palceAtr.postalCodes[0].lng}&key=${process.env.weatherbit_key}`
+            
+            let weatherChecker = await fetch(weather);
+            try{
+
+                let weatherData = await weatherChecker.json();
+
+
+                    let averageTemp = 0;
+
+                    for(let tempreture of weatherData['data']){
+
+                        averageTemp = averageTemp+tempreture.temp;
+                    }
+
+                    averageTemp = averageTemp / weatherData['data'].length;
+
+                    dataDump['averageTemp'] =  averageTemp;
+
+                }
+          
+            catch (error) {
+        
+                console.log("error", error);
+              }
+
+              let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${palceAtr.postalCodes[0].placeName}&image_type=photo`;
+
+              let pixabay_req = await fetch(pixabay);
+          
+              try{
+          
+                  if(pixabay_req.status==200){
+          
+                  let foto_url = await pixabay_req.json();
+          
+                  if (typeof foto_url.hits[0] == 'undefined') {
+          
+                      dataDump['pic'] =  "No Image found";
+          
+                  } else {
+          
+                      dataDump['pic'] = foto_url.hits[0].webformatURL;
+          
+                  }
+            
+              }
+              }
+              catch (error) {
+          
+                  console.log("error", error);
+                }
+
+        }
+  
     }
     }
     catch (error) {
-
         console.log("error", error);
       }
-}
+
     
+      projectData.push(dataDump);
+      console.log(projectData);
+      res.send(projectData)
+      
+}
