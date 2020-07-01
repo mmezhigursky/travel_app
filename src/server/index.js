@@ -2,7 +2,6 @@
 const  path = require('path');
 
 let projectData = [];
-let dataDump = {};
 const fetch = require("node-fetch");
 const express = require('express');
 
@@ -46,94 +45,114 @@ app.listen(8080, function () {
 
 
 app.post('/getdata', function (req, res) {
-    let test = apiMachine(req, res);
-    console.log("это картинка  ", req.body);
+    getGeoname(req)
+    .then((geo) => getWeather(geo))
+        .then((pic) => getpicture(pic))
+            .then((final) =>projectData.push(final))
+                .then(res.send(projectData));
+    
+   // let test = apiMachine(req, res);
     // res.send(projectData)
+
 })
 
-  const apiMachine =async (data, res) => {
-    
+
+
+const getGeoname = async (data) => {
+
     let geoName = `http://api.geonames.org/postalCodeSearchJSON?placename_startsWith=${data.body.place}&countryCode=${data.body.country}&maxRows=1&username=${process.env.geoName}`;
+    
+    console.log('reqest geoName',  geoName);
 
     let geoChecker = await fetch(geoName);
 
-    try{
-        if(geoChecker.status==200){
-       
-            let palceAtr = await geoChecker.json();
+    try{       
+        let palceAtr = await geoChecker.json();
         
         if (palceAtr.postalCodes[0] == undefined) {
             
-            dataDump['lon'] =  "None";
-           
-            dataDump['lat'] =  "None";
-        } else {
-            console.log(palceAtr);
+            console.log("error", 'No data'); 
             
-            let weather =  `https://api.weatherbit.io/v2.0/forecast/daily?lat=${palceAtr.postalCodes[0].lat}&lon=${palceAtr.postalCodes[0].lng}&key=${process.env.weatherbit_key}`
+        } 
+        else {
             
-            let weatherChecker = await fetch(weather);
-            try{
-
-                let weatherData = await weatherChecker.json();
-
-
-                    let averageTemp = 0;
-
-                    for(let tempreture of weatherData['data']){
-
-                        averageTemp = averageTemp+tempreture.temp;
-                    }
-
-                    averageTemp = averageTemp / weatherData['data'].length;
-
-                    dataDump['averageTemp'] =  averageTemp;
-
-                }
-          
-            catch (error) {
+            return palceAtr 
+        }
+            
+    } 
+    catch (error) {
         
-                console.log("error", error);
-              }
+        console.log("error", error);
 
-              let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${palceAtr.postalCodes[0].placeName}&image_type=photo`;
+        return error
+     }
 
-              let pixabay_req = await fetch(pixabay);
-          
-              try{
-          
-                  if(pixabay_req.status==200){
-          
-                  let foto_url = await pixabay_req.json();
-          
-                  if (typeof foto_url.hits[0] == 'undefined') {
-          
-                      dataDump['pic'] =  "No Image found";
-          
-                  } else {
-          
-                      dataDump['pic'] = foto_url.hits[0].webformatURL;
-          
-                  }
+}
+
+const getWeather = async (data) => {
+
+    console.log(data)
+
+    let weather =  `https://api.weatherbit.io/v2.0/forecast/daily?lat=${data.postalCodes[0].lat}&lon=${data.postalCodes[0].lng}&key=${process.env.weatherbit_key}`;
+    
+    let weatherChecker = await fetch(weather);
+
+    let resWeather = {};
+
+    try{
+
+        let weatherData = await weatherChecker.json();
+        
+        if (weatherData['data'][0] !== undefined){
+
+            let averageTemp = 0;
+
+            for(let tempreture of weatherData['data']){
+
+                averageTemp = averageTemp+tempreture.temp;
+            }
+
+            averageTemp = averageTemp / weatherData['data'].length;
+            let maxTemp = Math.max.apply(Math, weatherData['data'].map(function(o) { return o.max_temp; }));
+            let minTemp = Math.min.apply(Math, weatherData['data'].map(function(o) { return o.min_temp; }));
+            resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp, place:data.postalCodes[0].placeName};
+            console.log(resWeather);
+            return resWeather
+            }
+           
+        else {
             
-              }
-              }
-              catch (error) {
-          
-                  console.log("error", error);
-                }
+            return 'No data' }
 
         }
-  
-    }
-    }
+          
     catch (error) {
-        console.log("error", error);
-      }
 
+        console.log("error", error);
+        }
+}
+
+const getpicture  = async (data) => {
+
+    let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.place}&image_type=photo`;
+    console.log('reqest pixbay',pixabay);
+    let pixabay_req = await fetch(pixabay);
+
+    try{
+        
+        let foto_url = await pixabay_req.json();
+
+        data['pic'] = foto_url.hits[0].webformatURL;
+
+        return data
+
+    }
     
-      projectData.push(dataDump);
-      console.log(projectData);
-      res.send(projectData)
-      
+    catch (error) {
+
+        console.log("error", error);
+        
+        return error
+    }
+
 }
