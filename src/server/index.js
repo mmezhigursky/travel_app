@@ -44,16 +44,14 @@ app.listen(8080, function () {
 // })
 
 
-app.post('/getdata', function (req, res) {
-    getGeoname(req)
-    .then((geo) => getWeather(geo))
-        .then((pic) => getpicture(pic))
-            .then((final) =>projectData.push(final))
-                .then(res.send(projectData));
-    
+app.post('/getdata', async function (req, res) {
+   const geo =  await getGeoname(req);
+   const Weather =  await getWeather(geo);
+   const pic =  await getpicture(Weather);
+   projectData.push(pic);
+   res.send(projectData);
    // let test = apiMachine(req, res);
     // res.send(projectData)
-
 })
 
 
