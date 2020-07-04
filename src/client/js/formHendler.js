@@ -29,6 +29,7 @@ const postData = async ( url , data)=>{
           for (const property in newData) {
             // document.getElementById("img_api").src=`${newData[`${Object.keys(newData).length-1}`].pic}`;
             console.log(property)
+            
           }
         
 
@@ -50,11 +51,16 @@ const postData = async ( url , data)=>{
   async function getWeatherData(){
 
     let payload = {};
+
     payload['place']= document.getElementById('trips').value;
+
     payload['date']= document.getElementById('departing').value
+
     payload['country']= document.getElementById('country').value
 
-    let a = postData('http://localhost:8080/getdata', payload);
+    let req = await postData('http://localhost:8080/getdata', payload);
+
+  
     
   }
   

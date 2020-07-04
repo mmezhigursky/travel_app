@@ -2,6 +2,7 @@
 const  path = require('path');
 
 let projectData = [];
+let datadump = {};
 const fetch = require("node-fetch");
 const express = require('express');
 
@@ -18,6 +19,7 @@ const app = express();
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
 
 
@@ -46,10 +48,22 @@ app.listen(8080, function () {
 
 app.post('/getdata', async function (req, res) {
    const geo =  await getGeoname(req);
+
    const Weather =  await getWeather(geo);
+
    const pic =  await getpicture(Weather);
-   projectData.push(pic);
+
+   datadump['geo'] = geo;
+
+   datadump['Weather'] = Weather;
+
+   datadump['pic'] = pic;
+
+   projectData.push(datadump);
+
    res.send(projectData);
+
+   datadump={}
    // let test = apiMachine(req, res);
     // res.send(projectData)
 })
@@ -66,10 +80,12 @@ const getGeoname = async (data) => {
 
     try{       
         let palceAtr = await geoChecker.json();
-        
-        if (palceAtr.postalCodes[0] == undefined) {
+        console.log(palceAtr)
+        if (palceAtr.postalCodes[0] === undefined) {
             
-            console.log("error", 'No data'); 
+            palceAtr.postalCodes[0] = 'No date';
+
+            return palceAtr
             
         } 
         else {
@@ -89,60 +105,74 @@ const getGeoname = async (data) => {
 
 const getWeather = async (data) => {
 
-    console.log(data)
+    if(data.postalCodes[0] !== 'No date'){
 
-    let weather =  `https://api.weatherbit.io/v2.0/forecast/daily?lat=${data.postalCodes[0].lat}&lon=${data.postalCodes[0].lng}&key=${process.env.weatherbit_key}`;
-    
-    let weatherChecker = await fetch(weather);
+        console.log(data)
 
-    let resWeather = {};
-
-    try{
-
-        let weatherData = await weatherChecker.json();
+        let weather =  `https://api.weatherbit.io/v2.0/forecast/daily?lat=${data.postalCodes[0].lat}&lon=${data.postalCodes[0].lng}&key=${process.env.weatherbit_key}`;
         
-        if (weatherData['data'][0] !== undefined){
+        let weatherChecker = await fetch(weather);
 
-            let averageTemp = 0;
+        let resWeather = {};
 
-            for(let tempreture of weatherData['data']){
+        try{
 
-                averageTemp = averageTemp+tempreture.temp;
-            }
-
-            averageTemp = averageTemp / weatherData['data'].length;
-            let maxTemp = Math.max.apply(Math, weatherData['data'].map(function(o) { return o.max_temp; }));
-            let minTemp = Math.min.apply(Math, weatherData['data'].map(function(o) { return o.min_temp; }));
-            resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp, place:data.postalCodes[0].placeName};
-            console.log(resWeather);
-            return resWeather
-            }
-           
-        else {
+            let weatherData = await weatherChecker.json();
             
-            return 'No data' }
+            if (weatherData['data'][0] !== undefined){
+
+                let averageTemp = 0;
+
+                for(let tempreture of weatherData['data']){
+
+                    averageTemp = averageTemp+tempreture.temp;
+                }
+
+                averageTemp = averageTemp / weatherData['data'].length;
+
+                let maxTemp = Math.max.apply(Math, weatherData['data'].map(function(o) { return o.max_temp; }));
+
+                let minTemp = Math.min.apply(Math, weatherData['data'].map(function(o) { return o.min_temp; }));
+
+                resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp, place:data.postalCodes[0].placeName};
+
+                console.log(resWeather);
+
+                return resWeather
+            }
+            
+            else {
+                
+                return 'No data' 
+            }
 
         }
-          
-    catch (error) {
+            
+        catch (error) {
 
-        console.log("error", error);
+            console.log("error", error);
         }
+    }
+    else{
+
+        return 'undefined'
+    }
 }
 
 const getpicture  = async (data) => {
 
     let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.place}&image_type=photo`;
+
     console.log('reqest pixbay',pixabay);
+
     let pixabay_req = await fetch(pixabay);
 
     try{
         
         let foto_url = await pixabay_req.json();
 
-        data['pic'] = foto_url.hits[0].webformatURL;
 
-        return data
+        return foto_url.hits[0].webformatURL;
 
     }
     
@@ -150,7 +180,7 @@ const getpicture  = async (data) => {
 
         console.log("error", error);
         
-        return error
+        return 'undefined'
     }
 
 }
