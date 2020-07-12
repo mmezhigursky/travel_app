@@ -1,9 +1,10 @@
 
 const  path = require('path');
 
-let projectData = [];
 let datadump = {};
+
 const fetch = require("node-fetch");
+
 const express = require('express');
 
 // const mockAPIResponse = require('./mockAPI.js');
@@ -51,7 +52,7 @@ app.post('/getdata', async function (req, res) {
 
    const Weather =  await getWeather(geo);
 
-   const pic =  await getpicture(Weather);
+   const pic =  await getpicture(req);
 
    datadump['geo'] = geo;
 
@@ -59,9 +60,12 @@ app.post('/getdata', async function (req, res) {
 
    datadump['pic'] = pic;
 
-   projectData.push(datadump);
+   datadump['date_req'] = date();
 
-   res.send(projectData);
+   datadump['id'] = getRandomInt(1000000000000000);
+   
+
+   res.send(datadump);
 
    datadump={}
    // let test = apiMachine(req, res);
@@ -134,7 +138,7 @@ const getWeather = async (data) => {
 
                 let minTemp = Math.min.apply(Math, weatherData['data'].map(function(o) { return o.min_temp; }));
 
-                resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp, place:data.postalCodes[0].placeName};
+                resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp.toFixed(2), place:data.postalCodes[0].placeName};
 
                 console.log(resWeather);
 
@@ -161,7 +165,7 @@ const getWeather = async (data) => {
 
 const getpicture  = async (data) => {
 
-    let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.place}&image_type=photo`;
+    let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.body.place}&image_type=photo`;
 
     console.log('reqest pixbay',pixabay);
 
@@ -183,4 +187,40 @@ const getpicture  = async (data) => {
         return 'undefined'
     }
 
+}
+
+
+app.post('/fackeAPI', function (req, res) {
+
+ 
+    datadump['geo'] = '1247323.6233';
+ 
+    datadump['Weather'] = {MaxTemp:32, MinTemp:21, averT:23};
+ 
+    datadump['pic'] = 'https://www.dating.com/';
+ 
+    res.send(datadump);
+ 
+    datadump={}
+    // let test = apiMachine(req, res);
+     // res.send(projectData)
+ });
+
+ const date = () =>{
+
+    let today = new Date();
+    
+    let dd = String(today.getDate()).padStart(2, '0');
+    
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    
+    let yyyy = today.getFullYear();
+
+    return today = mm + '-' + dd + '-' + yyyy;
+};
+
+const getRandomInt = (max) =>{
+    
+    return Math.floor(Math.random() * Math.floor(max));
+  
 }

@@ -39,6 +39,6 @@ module.exports = {
     ],
     devServer: {  // configuration for webpack-dev-server
         contentBase: './src/client/views/index.html',  //source of static assets
-        port: 7700, // port to run dev-server
+        port: 7070, // port to run dev-server
     } 
 }

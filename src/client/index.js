@@ -1,5 +1,7 @@
 // import { urlChecker } from './js/validator'
 import { formHendler } from './js/formHendler'
+import { localgetter } from './js/localsaver'
+
 // import  './js/formHendler'
 
 // import src from './styles/efil.jpg';
