@@ -64,19 +64,11 @@ function isertData(array){
               My trip to: ${array.Weather.place}
           </H3>
           <p>
-              Departing:
+              Departing: from ${array.date_start} to ${array.date_end}
           </p>
       </div>
       <div class="curent_trip_info">
           <div class="flight_info">
-              <H4>
-                  Flight info:
-              </H4>
-              <p>
-                  ORD 3:00PM
-                  Flight 22 UDCITY AIR
-              </p>
-
           </div>
           <p class="day_left">
               Paris, France is 220 days away
@@ -100,9 +92,11 @@ return template
 
     payload['place']= document.getElementById('trips').value;
 
-    payload['date']= document.getElementById('departing').value
+    payload['date_start']= document.getElementById('start_date').value;
 
-    payload['country']= document.getElementById('country').value
+    payload['date_end']= document.getElementById('return_date').value;
+
+    payload['country']= document.getElementById('country').value;
 
     let req = await postData('http://localhost:8080/getdata', payload);
 
@@ -131,6 +125,12 @@ return template
 
   
     
+  }
+
+  const validator =  (data) => { 
+
+    
+
   }
 
 

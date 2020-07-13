@@ -84,5 +84,6 @@ const RemoveTool = (arr, id) =>{
 }
 
 export{localsetter}
+export{RemoveTool}
 export{localgetter}
 export{localRemover}

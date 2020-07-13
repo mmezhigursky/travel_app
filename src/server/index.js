@@ -63,6 +63,10 @@ app.post('/getdata', async function (req, res) {
    datadump['date_req'] = date();
 
    datadump['id'] = getRandomInt(1000000000000000);
+
+   datadump['date_start'] = req.body.date_start;
+
+   datadump['date_end'] = req.body.date_end;
    
 
    res.send(datadump);
@@ -138,7 +142,7 @@ const getWeather = async (data) => {
 
                 let minTemp = Math.min.apply(Math, weatherData['data'].map(function(o) { return o.min_temp; }));
 
-                resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp.toFixed(2), place:data.postalCodes[0].placeName};
+                resWeather = {maxT:maxTemp, minT:minTemp, averT:averageTemp.toFixed(1), place:data.postalCodes[0].placeName};
 
                 console.log(resWeather);
 
