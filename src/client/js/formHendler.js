@@ -68,13 +68,8 @@ function isertData(array){
           </p>
       </div>
       <div class="curent_trip_info">
-          <div class="flight_info">
-          </div>
-          <p class="day_left">
-              Paris, France is 220 days away
-          </p><br>
           <p class="typical_weather">
-              Forecast for 16 days from ${array.date_req}: AverT:${array.Weather.averT}, MaxT:${array.Weather.maxT}, MinT:${array.Weather.minT}
+              Forecast for 16 days from ${array.date_req}:<br> AverT:${array.Weather.averT} <br> MaxT:${array.Weather.maxT} <br> MinT:${array.Weather.minT}
           </p><br>
       </div>
    </div>
@@ -98,15 +93,24 @@ return template
 
     payload['country']= document.getElementById('country').value;
 
-    let req = await postData('http://localhost:8080/getdata', payload);
+    let val = isEmptyValue(payload);
 
-    let test =  isertData(req);
+    if (val===false){
 
-    console.log(test)
+      let req = await postData('http://localhost:8080/getdata', payload);
 
-    let parent = document.getElementById('wraper_info');
+      let test =  isertData(req);
 
-    parent.insertAdjacentHTML('beforeend', test);
+      console.log(test)
+
+      let parent = document.getElementById('wraper_info');
+
+      parent.insertAdjacentHTML('beforeend', test);
+    }
+
+    else{
+      alert('Please fill form by apropriate format')
+    }
 
     // for (let elem = 0; elem < req.length; elem++){
 
@@ -127,13 +131,15 @@ return template
     
   }
 
-  const validator =  (data) => { 
-
-    
-
+  const isEmptyValue = (payload) => {
+    for(let i in payload){
+    if (payload[i] === '' || payload[i] === null || payload[i] === undefined) {
+        return true
+    } else {
+        return false
+    }
   }
-
-
+}
   
   //create click listener for calling chain of functions  
   document.getElementById('save').addEventListener('click',  getWeatherData);

@@ -34,7 +34,7 @@ h2,h1,h3{
     /* grid-template-rows: 60px 45vh 45vh 45vh 45vh; */
     /* grid-auto-rows: minmax(400px, auto); */
     grid-template-columns:1fr;
-    grid-template-areas: "nav "
+    grid-template-areas: "nav"
                         "main"
                         "body"
                          "footer";
@@ -42,16 +42,36 @@ h2,h1,h3{
     /* border: red 2px solid; */
   }
 
+  #save, #remove_trip {
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    transition: 0.2s;
+    border: none;
+    width: 200px;
+  } 
+  #save, #remove_trip:hover { background: rgb(53, 167, 110); }
+  #save, #remove_trip:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+  }
+
+
   #wraper_planner{
       display: flex;
       flex-flow: column nowrap;
   }
 
 .container_info{
+  border: 2px solid black;
   grid-area:body;
   display: grid;
-
-  margin: auto;
+  margin: 20px;
+  padding: 5px;
   grid-gap: 1rem;
   /* grid-template-rows: 60px 45vh 45vh 45vh 45vh; */
   /* grid-auto-rows: minmax(400px, auto); */
@@ -96,4 +116,26 @@ img {
     justify-items: center;
     /* border: red 2px solid; */
   }
+
+  .container_info{
+    border: 2px solid black;
+    grid-area:body;
+    display: grid;
+    margin: 20px;
+    padding: 5px;
+    grid-gap: 1rem;
+    /* grid-template-rows: 60px 45vh 45vh 45vh 45vh; */
+    /* grid-auto-rows: minmax(400px, auto); */
+    grid-template-columns:1fr 1fr;
+    grid-template-areas: "foto info"
+                        "trip trip";
+    justify-items: center;
+    /* border: red 2px solid; */
+  
+  }
+  #remove_trip{
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
+
 }
