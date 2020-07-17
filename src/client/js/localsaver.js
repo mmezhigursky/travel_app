@@ -1,9 +1,12 @@
+// this function work with localstorage
+// if data is in localstorage by key _flights 
+// I add new data 
+// if no I initialise new array with date
+// 
 const localsetter = (data)=>{
     const keyName = '_flights';
 
     let LocalObjectJSON = localStorage.getItem(keyName);
-
-    // localStorage.setItem(keyName, JSON.stringify([]));
 
     let LocalObject;
 
@@ -26,6 +29,8 @@ const localsetter = (data)=>{
     }
 }
 
+// this is getter of localstorage object
+
 const localgetter = ()=>{
     const keyName = '_flights';
 
@@ -45,6 +50,7 @@ const localgetter = ()=>{
                                                 
 }
 
+/
 
 const localRemover = (id)=>{
     const keyName = '_flights';
@@ -55,23 +61,17 @@ const localRemover = (id)=>{
 
     let res = RemoveTool(LocalObject,  id);
 
-    console.log('вот что осталось после удаления', res);
-
-    console.log('вот что отправляем в локалку', JSON.stringify(res));
-
     localStorage.setItem(keyName, JSON.stringify(res));
                                                 
 }
 
 
-
+// this tool help to remove some data from array
 const RemoveTool = (arr, id) =>{
-    console.log(arr);
+
     for (let i in arr){
         if (arr[i].id === parseInt(id)) {
             
-            console.log('вот что наши и удалилил',arr[i].id);
-
             arr.splice(i, 1);
 
             return arr

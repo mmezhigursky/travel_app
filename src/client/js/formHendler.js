@@ -4,8 +4,6 @@ import { localgetter } from './localsaver'
 
 
 const postData = async ( url , data)=>{
-
-    console.log(data);
   
       const response = await fetch(url, {
   
@@ -29,8 +27,6 @@ const postData = async ( url , data)=>{
 
         window.gig =newData;
         
-        console.log(newData);
-
         if (Object.keys(newData).length>0){
 
             localsetter(newData);
@@ -51,6 +47,7 @@ const postData = async ( url , data)=>{
   }
 
  
+// this function prepares HTML template to insert in a document odj
 
 function isertData(array){
 
@@ -80,7 +77,8 @@ function isertData(array){
 return template
 
 }
-  
+
+// this function make a call to server
   async function getWeatherData(){
 
     let payload = {};
@@ -101,8 +99,6 @@ return template
 
       let test =  isertData(req);
 
-      console.log(test)
-
       let parent = document.getElementById('wraper_info');
 
       parent.insertAdjacentHTML('beforeend', test);
@@ -111,26 +107,9 @@ return template
     else{
       alert('Please fill form by apropriate format')
     }
-
-    // for (let elem = 0; elem < req.length; elem++){
-
-    //   console.log('dfwefwe', req[elem])
-
-    //   let test =  isertData(req[elem]);
-
-    //   console.log(test)
-
-    //   let parent = document.getElementById('wraper_info');
-
-    //   parent.insertAdjacentHTML('beforeend', test);
-
-
-    // }
-
-  
     
   }
-
+// validator of payload
   const isEmptyValue = (payload) => {
     for(let i in payload){
     if (payload[i] === '' || payload[i] === null || payload[i] === undefined) {
@@ -146,16 +125,10 @@ return template
 
   window.addEventListener('load',function(e){
 
-    console.log(e)
-
       let localData = localgetter()
       for(let el in localData){
 
-        console.log(localData[el])
-
         let test =  isertData(localData[el]);
-
-        console.log(el)
     
         let parent = document.getElementById('wraper_info');
     
@@ -167,11 +140,18 @@ return template
   });
 
   document.addEventListener('click',function(e){
+    
     if(e.target && e.target.id == 'remove_trip'){
-        let del = e.target.attributes.elem.value;
-          // console.log(e.target.attributes.elem.value);
-          localRemover(del)
-          document.getElementById(del).remove();
+      
+      //here I get id of element to delete it 
+
+      let del = e.target.attributes.elem.value;
+
+        // this function was imported from localsaver file 
+
+        localRemover(del)
+          
+        document.getElementById(del).remove();
 
      }
  });
