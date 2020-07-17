@@ -167,7 +167,7 @@ return template
   });
 
   document.addEventListener('click',function(e){
-    if(e.target && e.target.id== 'remove_trip'){
+    if(e.target && e.target.id == 'remove_trip'){
         let del = e.target.attributes.elem.value;
           // console.log(e.target.attributes.elem.value);
           localRemover(del)

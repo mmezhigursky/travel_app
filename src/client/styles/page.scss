@@ -54,8 +54,13 @@ h2,h1,h3{
     border: none;
     width: 200px;
   } 
-  #save, #remove_trip:hover { background: rgb(53, 167, 110); }
-  #save, #remove_trip:active {
+  #remove_trip:hover { background: rgb(53, 167, 110); }
+  #remove_trip:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+  }
+  #save:hover { background: rgb(53, 167, 110); }
+  #save:active {
     background: rgb(33,147,90);
     box-shadow: 0 3px rgb(33,147,90) inset;
   }
