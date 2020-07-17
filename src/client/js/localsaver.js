@@ -50,7 +50,6 @@ const localgetter = ()=>{
                                                 
 }
 
-/
 
 const localRemover = (id)=>{
     const keyName = '_flights';

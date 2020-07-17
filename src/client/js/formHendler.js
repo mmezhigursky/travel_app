@@ -29,8 +29,15 @@ const postData = async ( url , data)=>{
         
         if (Object.keys(newData).length>0){
 
-            localsetter(newData);
-        
+            if(newData.Weather !=='undefined'){
+
+              console.log(newData.Weather)
+
+              localsetter(newData);
+            }
+            else{
+
+            }
         }
         else{
           console.log("no data")
@@ -51,7 +58,11 @@ const postData = async ( url , data)=>{
 
 function isertData(array){
 
-  let template = `<div id=${array.id} class='container_info'>
+let template;
+
+if(array.Weather.place !== undefined){
+  
+  template = `<div id=${array.id} class='container_info'>
   <div class="img_wraper">
       <img id='img_api'src=${array.pic} alt="">
    </div>
@@ -75,6 +86,13 @@ function isertData(array){
 </div>`;
 
 return template
+}
+
+else{
+  template = undefined;
+  return template
+}
+
 
 }
 
@@ -97,11 +115,19 @@ return template
 
       let req = await postData('http://localhost:8080/getdata', payload);
 
-      let test =  isertData(req);
+      let new_trip =  isertData(req);
 
-      let parent = document.getElementById('wraper_info');
+      if(typeof new_trip !== 'undefined'){
 
-      parent.insertAdjacentHTML('beforeend', test);
+        let parent = document.getElementById('wraper_info');
+
+        parent.insertAdjacentHTML('beforeend', new_trip);
+
+      }
+
+      else{
+        alert('city is undefined please try again')
+      }
     }
 
     else{
@@ -127,12 +153,14 @@ return template
 
       let localData = localgetter()
       for(let el in localData){
+        if(typeof new_trip !== 'undefined'){
 
-        let test =  isertData(localData[el]);
-    
-        let parent = document.getElementById('wraper_info');
-    
-        parent.insertAdjacentHTML('beforeend', test);
+          let local_el =  isertData(localData[el]);
+      
+          let parent = document.getElementById('wraper_info');
+      
+          parent.insertAdjacentHTML('beforeend', local_el);
+        }
 
       }
 
