@@ -282,40 +282,7 @@
          </div>
        </section>
        <section id="wraper_info">
-            <!-- <div id="container_info">
-                <div class="img_wraper">
-                    <img id='img_api'src='assets/efil.jpg' alt="">
-                 </div>
-                 <div class="curent_trip">
-                     <div class="curent_trip_header">
-                        <H3>
-                            My trip to:
-                        </H3>
-                        <p>
-                            Departing:
-                        </p>
-                    </div>
-                    <div class="curent_trip_info">
-                        <div class="flight_info">
-                            <H4>
-                                Flight info:
-                            </H4>
-                            <p>
-                                ORD 3:00PM
-                                Flight 22 UDCITY AIR
-                            </p>
 
-                        </div>
-                        <p class="day_left">
-                            Paris, France is 220 days away
-                        </p><br>
-                        <p class="typical_weather">
-                            Typical weather for the:
-                        </p><br>
-                    </div>
-                 </div>
-                
-            </div> -->
        </section>
     </div>
     <div class="section" id="footer_section">
@@ -333,5 +300,14 @@
         </div>
     </div>
 </div>
+<script>
+    // Check that service workers are supported
+    if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js');
+        });
+    }
+</script>
 </body>
 </html>
