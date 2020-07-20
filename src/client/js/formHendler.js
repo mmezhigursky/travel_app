@@ -1,5 +1,7 @@
 import { localsetter } from './localsaver'
+
 import { localRemover } from './localsaver'
+
 import { localgetter } from './localsaver'
 
 
@@ -40,7 +42,9 @@ const postData = async ( url , data)=>{
             }
         }
         else{
-          console.log("no data")
+
+          console.log("no data");
+
         }
   
         return newData;
@@ -82,7 +86,6 @@ if(array.Weather.place !== undefined){
       </div>
    </div>
    <input type="button" elem="${array.id}" value="remove" id="remove_trip"> <br><br>
-  
 </div>`;
 
 return template
@@ -92,7 +95,7 @@ else{
   
   template = undefined;
 
-  return template
+  return template;
 }
 
 
@@ -139,51 +142,61 @@ else{
   }
 // validator of payload
   const isEmptyValue = (payload) => {
+
     for(let i in payload){
+
     if (payload[i] === '' || payload[i] === null || payload[i] === undefined) {
-        return true
-    } else {
-        return false
+
+        return true;
+
+    }
+    else {
+
+      return false;
+      
     }
   }
 }
-  
+document.addEventListener('DOMContentLoaded', () => {
   //create click listener for calling chain of functions  
-  document.getElementById('save').addEventListener('click',  getWeatherData);
+    document.getElementById('save').addEventListener('click',  getWeatherData);
 
-  window.addEventListener('load',function(e){
+    window.addEventListener('load',function(e){
 
-      let localData = localgetter()
-      for(let el in localData){
-        if(typeof new_trip !== 'undefined'){
+        let localData = localgetter();
 
-          let local_el =  isertData(localData[el]);
-      
-          let parent = document.getElementById('wraper_info');
-      
-          parent.insertAdjacentHTML('beforeend', local_el);
+        for(let el in localData){
+
+          if(typeof new_trip !== 'undefined'){
+
+            let local_el =  isertData(localData[el]);
+        
+            let parent = document.getElementById('wraper_info');
+        
+            parent.insertAdjacentHTML('beforeend', local_el);
+          }
+
         }
 
-      }
 
+    });
 
-  });
-
-  document.addEventListener('click',function(e){
-    
-    if(e.target && e.target.id == 'remove_trip'){
+    document.addEventListener('click',function(e){
       
-      //here I get id of element to delete it 
+      if(e.target && e.target.id == 'remove_trip'){
+        
+        //here I get id of element to delete it 
 
-      let del = e.target.attributes.elem.value;
+        let del = e.target.attributes.elem.value;
 
-        // this function was imported from localsaver file 
+          // this function was imported from localsaver file 
 
-        localRemover(del)
-          
-        document.getElementById(del).remove();
+          localRemover(del);
+            
+          document.getElementById(del).remove();
 
-     }
- });
+      }
+  });
+});
   
   export{postData}

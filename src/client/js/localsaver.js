@@ -4,6 +4,7 @@
 // if no I initialise new array with date
 // 
 const localsetter = (data)=>{
+
     const keyName = '_flights';
 
     let LocalObjectJSON = localStorage.getItem(keyName);
@@ -39,12 +40,12 @@ const localgetter = ()=>{
 
          let LocalObject = JSON.parse(LocalObjectJSON);
 
-         return LocalObject
+         return LocalObject;
     }
 
     catch (error){
 
-        return error
+        return error;
         
     }
                                                 
@@ -52,6 +53,7 @@ const localgetter = ()=>{
 
 
 const localRemover = (id)=>{
+
     const keyName = '_flights';
 
     let LocalObjectJSON = localStorage.getItem(keyName);
@@ -69,20 +71,24 @@ const localRemover = (id)=>{
 const RemoveTool = (arr, id) =>{
 
     for (let i in arr){
+        
         if (arr[i].id === parseInt(id)) {
             
             arr.splice(i, 1);
 
-            return arr
+            return arr;
         } 
         else {
-            
+
         }
  
     }
 }
 
 export{localsetter}
+
 export{RemoveTool}
+
 export{localgetter}
+
 export{localRemover}
