@@ -25,6 +25,15 @@ h2,h1,h3{
     color:38444c;
   }
 
+	
+#country, #trips, #start_date, #return_date{
+  max-width: 145px;
+  border: #5B2C6F solid 2px;
+}
+#country:hover,#trips:hover, #start_date:hover, #return_date:hover{
+  border: #F1C40F solid 2px;
+}
+
   .container{
     display: grid;
     width: 90vw;
@@ -70,6 +79,7 @@ h2,h1,h3{
       display: flex;
       flex-flow: column nowrap;
   }
+
 
 .container_info{
   border: 2px solid black;

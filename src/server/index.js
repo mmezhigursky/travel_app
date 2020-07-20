@@ -169,7 +169,7 @@ const getWeather = async (data) => {
 
 const getpicture  = async (data) => {
 
-    let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.body.place}&image_type=photo`;
+    let pixabay = `https://pixabay.com/api/?key=${process.env.pixabay_key}&q=${data.body.place}&category=places&image_type=photo`;
 
     console.log('reqest pixbay',pixabay);
 
@@ -178,6 +178,8 @@ const getpicture  = async (data) => {
     try{
         
         let foto_url = await pixabay_req.json();
+
+        console.log(foto_url)
 
 
         return foto_url.hits[0].webformatURL;

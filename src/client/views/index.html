@@ -18,7 +18,7 @@
        <section id="wraper_planner">
          <div>
              <label for="country">Country</label><br>
-                <select id="country">
+                <select required="required" id="country">
                 <!--https://www.freeformatter.com/iso-country-list-html-select.html-->
                 <option selected value="none">Select country</option>
                 <option value="AF">Afghanistan</option>
@@ -274,9 +274,9 @@
             <!-- <label for="postalcode">Or enter postalcode</label><br>
            <input type="text" placeholder="enter postalcode" id="post_code" name="postalcode" ><br> -->
            <label for="place">City of destination:</label><br>
-           <input type="text" placeholder="enter city of destanation" id="trips" name="place" ><br>
+           <input type="text" placeholder="enter city of destanation" id="trips" name="place" required="required"><br>
            <label for="date">Travelling dates:</label><br>
-           <input type="text" placeholder="start date 07/01/2020" id="start_date" name="date" > <input type="text" placeholder="end date 07/01/2020" id="return_date" name="date" ><br><br>
+           <input type="date" placeholder="start date 07/01/2020" id="start_date" name="date" > <input type="date" placeholder="end date 07/01/2020" id="return_date" name="date" ><br><br>
            <input type="button" id="save" value="save trip" id="save_trip">
            <!-- <input type="button" id="remove" value="remove" id="remove_trip"> -->
          </div>

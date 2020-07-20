@@ -25,8 +25,15 @@ Fork this repo, then clone the branch of your choice from your forked repo down 
 git clone -- git@github.com:mmezhigursky/travel_app.git --
 ```
 
+
 `cd` into your new folder and run:
 - ```npm install```
 - ```npm run build-prod```
+Be awaer you have to create .env file to incapsulate sensetive information like tokens
+- ```npm install dotenv```
+and put this var in the file 
+weatherbit_key = 'token'
+geoName = 'token'
+pixabay_key = 'token'
 - ```npm start``` to start the app
 - this app runs on localhost:8080

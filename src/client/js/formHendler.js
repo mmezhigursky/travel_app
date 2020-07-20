@@ -31,7 +31,7 @@ const postData = async ( url , data)=>{
 
             if(newData.Weather !=='undefined'){
 
-              console.log(newData.Weather)
+              console.log(newData.Weather);
 
               localsetter(newData);
             }
@@ -89,7 +89,9 @@ return template
 }
 
 else{
+  
   template = undefined;
+
   return template
 }
 
